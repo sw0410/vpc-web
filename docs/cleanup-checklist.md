@@ -34,5 +34,5 @@
 | 6 | 라우팅 테이블 `vpc-web-public-rt` 삭제 | 서브넷 연결이 풀린 뒤 삭제 가능. 처음엔 '연결이 있어 삭제 불가'로 거부됨(서브넷 삭제 직후라 화면 정보가 늦음) → 새로고침 후 삭제 | ☑ 11-20 22:14 | [거부 화면](images/cleanup-06-rt-delete-blocked.png), [기본 표 두 개만 남음](images/cleanup-06b-rt-only-main.png) |
 | 7 | IGW `vpc-web-igw` **분리(Detach)** 후 삭제 | VPC에 붙어 있는 동안 삭제 불가. 처음에 바로 삭제를 눌러 'VPC에서 먼저 분리하세요'로 거부됨 → 분리 후 삭제 | ☑ 11-20 22:15 | [거부 문구](images/cleanup-07-igw-detach-first.png), [기본 VPC의 IGW만 남음](images/cleanup-07b-igw-only-default.png) |
 | 8 | VPC `vpc-web` 삭제 | 마지막. 기본 라우팅 테이블·보안그룹·NACL이 함께 사라짐 | ☑ 11-20 22:16 | [기본 VPC만 남음](images/cleanup-08-vpc-only-default.png) |
-| 9 | 키 페어 `vpc-web-key` 삭제, 노트북의 `.pem` 삭제 | 돈은 안 나가지만 쓰지 않는 열쇠는 남기지 않음 | ☐ | |
+| 9 | 키 페어 `vpc-web-key` 삭제, 노트북의 `.pem` 삭제 | 돈은 안 나가지만 쓰지 않는 열쇠는 남기지 않음 | ☑ 11-20 22:21 | [키 페어 없음](images/cleanup-09-keypair-empty.png), 랩탑 `Remove-Item` 완료 |
 | 10 | Billing 확인 (정리 후 하루 이상 지나서) | 청구 화면은 약 하루 늦게 반영 | ☐ | |
