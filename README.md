@@ -25,7 +25,10 @@ AWS 서울 리전(`ap-northeast-2`)에 VPC → 퍼블릭 서브넷 → 인터넷
 
 ## 아키텍처
 
-- 다이어그램: [`docs/architecture.png`](docs/architecture.png) ← ①-3에서 초안
+![아키텍처](docs/architecture.png)
+
+- 노트북의 요청은 인터넷 → IGW → (서브넷) → 보안그룹(80·22만 허용) → EC2의 Nginx로 들어가고, 응답은 서브넷 라우팅 테이블의 `0.0.0.0/0 → IGW` 줄을 따라 나간다.
+- IAM은 패킷이 아니라 콘솔에서 하는 사람의 작업을 거른다.
 
 ## 계정과 권한
 
@@ -34,6 +37,10 @@ AWS 서울 리전(`ap-northeast-2`)에 VPC → 퍼블릭 서브넷 → 인터넷
   - 적지 않은 것(S3, RDS, IAM, 결제 등)은 자동으로 거부된다. 확인: VPC·인스턴스 목록은 보이고([08](docs/images/08-iam-check-vpc-list.png), [09](docs/images/09-iam-check-instance-list.png)), S3 버킷 만들기는 `s3:CreateBucket` 권한 없음으로 실패([10](docs/images/10-iam-check-s3-denied.png))
   - 붙은 정책 화면: [07](docs/images/07-iam-policy-attached.png)
 - 루트 사용자는 MFA(패스키)를 걸고, IAM 사용자·정책 관리와 결제 확인 같은 **계정 관리에만** 쓴다.
+
+## 정리
+
+2026-11-20 22:08~22:16에 [체크리스트](docs/cleanup-checklist.md) 순서대로 모두 종료·삭제했다(EC2 → EBS 확인 → EIP 확인 → 보안그룹 → 서브넷 → 라우팅 테이블 → IGW 분리·삭제 → VPC). 남은 것은 계정에 원래 있던 기본 VPC뿐이다.
 
 ## 만든 리소스 기록표
 
@@ -62,7 +69,9 @@ AWS 서울 리전(`ap-northeast-2`)에 VPC → 퍼블릭 서브넷 → 인터넷
 
 ## 문서
 
-- 트러블슈팅 보고서: [`docs/troubleshooting.md`](docs/troubleshooting.md)
-- 리소스 정리 체크리스트: [`docs/cleanup-checklist.md`](docs/cleanup-checklist.md)
+- [아키텍처 그림](docs/architecture.png)
+- [트러블슈팅](docs/troubleshooting.md) (원본 메모: [troubleshooting-notes.md](docs/troubleshooting-notes.md))
+- [리소스 정리 체크리스트](docs/cleanup-checklist.md)
+- [IAM 정책](docs/iam-policy.json)
 
 > 공개 리포에 올릴 때는 스크린샷 속 12자리 계정 ID를 가린다.
