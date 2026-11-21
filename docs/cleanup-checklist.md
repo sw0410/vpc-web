@@ -35,4 +35,4 @@
 | 7 | IGW `vpc-web-igw` **분리(Detach)** 후 삭제 | VPC에 붙어 있는 동안 삭제 불가. 처음에 바로 삭제를 눌러 'VPC에서 먼저 분리하세요'로 거부됨 → 분리 후 삭제 | ☑ 11-20 22:15 | [거부 문구](images/cleanup-07-igw-detach-first.png), [기본 VPC의 IGW만 남음](images/cleanup-07b-igw-only-default.png) |
 | 8 | VPC `vpc-web` 삭제 | 마지막. 기본 라우팅 테이블·보안그룹·NACL이 함께 사라짐 | ☑ 11-20 22:16 | [기본 VPC만 남음](images/cleanup-08-vpc-only-default.png) |
 | 9 | 키 페어 `vpc-web-key` 삭제, 노트북의 `.pem` 삭제 | 돈은 안 나가지만 쓰지 않는 열쇠는 남기지 않음 | ☑ 11-20 22:21 | [키 페어 없음](images/cleanup-09-keypair-empty.png), 랩탑 `Remove-Item` 완료 |
-| 10 | Billing 확인 (정리 후 하루 이상 지나서) | 청구 화면은 약 하루 늦게 반영 | ☐ | |
+| 10 | Billing 확인 (정리 후 하루 이상 지나서) | 청구 화면은 약 하루 늦게 반영 | ☑ 11-21 14:28 1차 (크레딧 US$119.91, 사용 약 9센트, 청구 0원). 11-23에 더 늘지 않았는지 재확인 | [크레딧 화면](images/billing-01-credits-1121.png) |
