@@ -1,5 +1,7 @@
 # 트러블슈팅 (vpc-web)
 
+> 단계별로 따라가는 인터랙티브 버전: https://claude.ai/artifact/Mv1tg9PXZAjTQU9DnECCaV (공유 설정 후 열람 가능)
+
 시각과 원본 메모는 [troubleshooting-notes.md](troubleshooting-notes.md)에 있습니다. 이 문서는 그중 두 건을 `증상 → 가설 → 검증 → 조치 → 결과 → 재발 방지` 형식으로 정리한 것입니다.
 
 ## 사례 1. SSH와 웹이 모두 시간 초과 (2026-11-18)
