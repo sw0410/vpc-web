@@ -2,15 +2,15 @@
 
 실습 중 실제로 겪은 장애 두 건입니다. 시각별 원본 메모는 [troubleshooting-notes.md](troubleshooting-notes.md)에 있습니다.
 
-## 사례 1. 브라우저와 SSH가 모두 시간 초과 (2026-11-18)
+## 사례 1. Nginx 설치 전 SSH와 브라우저 모두 시간 초과 (2026-11-18)
 
 | 단계 | 내용 |
 |---|---|
-| 증상 | SSH도 브라우저도 휴대폰 LTE도 모두 `시간 초과` |
-| 가설 | 보안그룹 22번 소스가 틀렸다 / 내 쪽 네트워크 문제다 / AWS 네트워크 설정(라우팅 테이블, IGW, 퍼블릭 IP)이 빠졌다 |
-| 검증 | 내 IP가 22번 소스와 같고 80번은 누구나 허용인데도 웹이 막힘 → 보안그룹 아님. 휴대폰 LTE도 막힘 → 내 쪽 아님. 서브넷 라우팅 테이블에 `10.0.0.0/16 → local` 한 줄뿐 ([화면](images/trouble-01-route-table-missing-igw.png)) |
+| 증상 | Nginx를 설치하려고 SSH로 접속하려다 `시간 초과` |
+| 가설 | 보안그룹 22번 소스가 틀렸다 / AWS 네트워크 설정(라우팅 테이블, IGW)이 빠졌다 |
+| 검증 | 브라우저로 80번도 확인. Nginx 설치 전이라 원래는 즉시 `연결 거부`가 떠야 하는데 이것도 `시간 초과` → 80과 22가 모두 막힘 → 포트를 보지 않는 라우팅 테이블 확인 → `10.0.0.0/16 → local` 한 줄뿐 ([화면](images/trouble-01-route-table-missing-igw.png)) |
 | 조치 | `0.0.0.0/0 → IGW` 줄 추가 후 **변경 사항 저장** ([화면](images/trouble-02-route-table-fixed.png)) |
-| 결과 | SSH 접속 성공, 브라우저는 즉시 `연결 거부`(Nginx 설치 전이라 정상) ([화면](images/trouble-03-browser-refused-before-nginx.png)) |
+| 결과 | SSH 접속 성공, 브라우저는 즉시 `연결 거부`로 바뀜 → 요청이 EC2까지 도착함(Nginx가 없어 거부) ([화면](images/trouble-03-browser-refused-before-nginx.png)) |
 | 재발 방지 | 전날 줄을 넣고 저장을 누르지 않은 것이 원인. 설정 뒤에는 편집 화면이 아니라 적용된 화면에서 확인한다 |
 
 ## 사례 2. 집에서 SSH만 시간 초과 (2026-11-19)
