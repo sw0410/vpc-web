@@ -13,13 +13,13 @@
 | 결과 | SSH 접속 성공, 브라우저는 즉시 `연결 거부`로 바뀜 → 요청이 EC2까지 도착함(Nginx가 없어 거부) ([화면](images/trouble-03-browser-refused-before-nginx.png)) |
 | 재발 방지 | 전날 줄을 넣고 저장을 누르지 않은 것이 원인. 설정 뒤에는 편집 화면이 아니라 적용된 화면에서 확인한다 |
 
-## 사례 2. 집에서 SSH만 시간 초과 (2026-11-19)
+## 사례 2. 랩탑에서 SSH만 시간 초과 (2026-11-19)
 
 | 단계 | 내용 |
 |---|---|
-| 증상 | 같은 IP `43.200.2.228`로 브라우저는 Nginx 페이지가 뜨는데 ([화면](images/13-browser-after-restart.png)) SSH만 `Connection timed out` ([화면](images/trouble-04-ssh-timeout-from-home.png)) |
-| 가설 | 키 문제다 / 보안그룹 22번 줄이 지금 위치를 허용하지 않는다 |
-| 검증 | 키가 틀리면 `Permission denied (publickey)`로 대답이 온다. 대답 없는 시간 초과라 키 아님. 웹은 되므로 라우팅·IGW는 정상. 22번 소스 = 전날 학습장 IP, 지금 = 집 IP |
+| 증상 | 랩탑에서 SSH로 접속하려다 `Connection timed out` ([화면](images/trouble-04-ssh-timeout-from-home.png)) |
+| 가설 | 키가 틀렸다 / 보안그룹 22번 소스가 현재 기기 IP와 다르다 |
+| 검증 | 같은 IP `43.200.2.228`로 브라우저는 Nginx 페이지가 뜸 ([화면](images/13-browser-after-restart.png)) → 22만 막힘 → 라우팅 테이블·IGW는 정상. 키가 틀리면 `Permission denied`로 대답이 오는데 대답 없는 시간 초과 → 키 아님 → 보안그룹 22번 소스 확인 → 전날 학습장 IP |
 | 조치 | 22번 소스를 현재 랩탑 IP `/32`로 교체 (`0.0.0.0/0`으로 넓히지 않음). 교체 화면은 캡처하지 못했고 리소스를 삭제해 다시 찍을 수 없음 |
 | 결과 | 랩탑 터미널에서 SSH 접속 성공, `ubuntu@ip-10-0-1-7` 프롬프트에서 명령 실행 ([화면](images/exp-06-sg80-deleted-ssh-alive.png), 같은 날 이어서 한 실험 중 캡처) |
 | 재발 방지 | 접속 장소가 바뀌면 22번 소스를 현재 기기의 IP로 바꾸고 기록한다 |
